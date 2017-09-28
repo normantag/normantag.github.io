@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html >
+<head>
+
+    <!--[if lt IE 9]>
+        <style>body {display: none; background: none !important} </style>
+        <meta http-equiv="Refresh" Content="0; url=//outdatedbrowser.com/" />
+    <![endif]-->
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<meta name="author" content="Norman" />
+
+
+
+<meta name="description" content="Systtem Internals Android Google Play集成Google Play Protect 防护服务，新添加了一个 SafetyNet Verify Apps API 的特性，开发者可以从 Verify Apps API 获得已安装 APP 的安全状态：  https://android-developers.googleblog.com/2017/09/safetyne">
+<meta name="keywords" content="移动安全, Android安全, 周报, 漏洞, 病毒, Malware, Vulnerability, 黑客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android安全技术周报 09.15 - 09.21">
+<meta property="og:url" content="http://norman.ml/2017/09/21/AndroidSecurityWeekly-09-15-09-21/index.html">
+<meta property="og:site_name" content="project tag and the machine">
+<meta property="og:description" content="Systtem Internals Android Google Play集成Google Play Protect 防护服务，新添加了一个 SafetyNet Verify Apps API 的特性，开发者可以从 Verify Apps API 获得已安装 APP 的安全状态：  https://android-developers.googleblog.com/2017/09/safetyne">
+<meta property="og:updated_time" content="2017-09-28T07:52:19.530Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android安全技术周报 09.15 - 09.21">
+<meta name="twitter:description" content="Systtem Internals Android Google Play集成Google Play Protect 防护服务，新添加了一个 SafetyNet Verify Apps API 的特性，开发者可以从 Verify Apps API 获得已安装 APP 的安全状态：  https://android-developers.googleblog.com/2017/09/safetyne">
+
+<link rel="apple-touch-icon" href= "/apple-touch-icon.png">
+
+
+    <link rel="alternate" href="/atom.xml" title="project tag and the machine" type="application/atom+xml">
+
+
+
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+
+
+    <link href="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet">
+
+
+
+    <script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+    <link href="//cdn.bootcss.com/pace/1.0.2/themes/blue/pace-theme-minimal.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+
+<title>Android安全技术周报 09.15 - 09.21 | project tag and the machine</title>
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/clipboard.js/1.5.10/clipboard.min.js"></script>
+
+<script>
+    var yiliaConfig = {
+        fancybox: true,
+        animate: false,
+        isHome: false,
+        isPost: true,
+        isArchive: false,
+        isTag: false,
+        isCategory: false,
+        fancybox_js: "//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.min.js",
+        scrollreveal: "//cdn.bootcss.com/scrollReveal.js/3.1.4/scrollreveal.min.js",
+        search: false
+    }
+</script>
+
+
+    <script> yiliaConfig.jquery_ui = [false]; </script>
+
+
+
+    <script> yiliaConfig.rootUrl = "\/";</script>
+
+
+
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?97de5819f2c1e9166f90eb99f65b190a";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+    <header id="header" class="inner">
+        <a href="/" class="profilepic">
+            <img src="/assets/img/avatar.jpg" class="animated zoomIn">
+        </a>
+        <hgroup>
+          <h1 class="header-author"><a href="/">Norman</a></h1>
+        </hgroup>
+
+        
+
+        
+
+
+        
+            <div id="switch-btn" class="switch-btn">
+                <div class="icon">
+                    <div class="icon-ctn">
+                        <div class="icon-wrap icon-house" data-idx="0">
+                            <div class="birdhouse"></div>
+                            <div class="birdhouse_holes"></div>
+                        </div>
+                        <div class="icon-wrap icon-ribbon hide" data-idx="1">
+                            <div class="ribbon"></div>
+                        </div>
+                        
+                        <div class="icon-wrap icon-link hide" data-idx="2">
+                            <div class="loopback_l"></div>
+                            <div class="loopback_r"></div>
+                        </div>
+                        
+                        
+                        <div class="icon-wrap icon-me hide" data-idx="3">
+                            <div class="user"></div>
+                            <div class="shoulder"></div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                <div class="tips-box hide">
+                    <div class="tips-arrow"></div>
+                    <ul class="tips-inner">
+                        <li>Menu</li>
+                        <li>Tags</li>
+                        
+                        <li>Friends</li>
+                        
+                        
+                        <li>About Me</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div id="switch-area" class="switch-area">
+            <div class="switch-wrap">
+                <section class="switch-part switch-part1">
+                    <nav class="header-menu">
+                        <ul>
+                        
+                            <li><a href="/">主页</a></li>
+                        
+                            <li><a href="/archives/">所有文章</a></li>
+                        
+                            <li><a href="/tags/">标签云</a></li>
+                        
+                            <li><a href="/about/">关于我</a></li>
+                        
+                        </ul>
+                    </nav>
+                    <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa 新浪微博" href="https://weibo.com/iriqium" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" href="https://github.com/normantag" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" href="https://www.zhihu.com/people/normantag" title="知乎"></a>
+                            
+                                <a class="fa RSS" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+                    </nav>
+                </section>
+                
+                
+                <section class="switch-part switch-part2">
+                    <div class="widget tagcloud" id="js-tagcloud">
+                        <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/AOSP/">AOSP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Anaconda/">Anaconda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android-SDK/">Android SDK</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android安全/">Android安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Botnet/">Botnet</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Malware/">Malware</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Nodejs/">Nodejs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ubuntu/">Ubuntu</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vulnerability/">Vulnerability</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/conda/">conda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/miniconda/">miniconda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/pip/">pip</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/信息安全/">信息安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/周报/">周报</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/漏洞/">漏洞</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/病毒/">病毒</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/移动安全/">移动安全</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/镜像/">镜像</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+                    </div>
+                </section>
+                
+                
+                
+                <section class="switch-part switch-part3">
+                    <div id="js-friends">
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://blogs.360.cn/360mobile/">360移动安全专栏</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="http://bobao.360.cn/">安全客</a>
+                    
+                      <a class="main-nav-link switch-friends-link" href="https://hexo.io">Hexo</a>
+                    
+                    </div>
+                </section>
+                
+
+                
+                
+                <section class="switch-part switch-part4">
+                
+                    <div id="js-aboutme">Norman</div>
+                </section>
+                
+            </div>
+        </div>
+    </header>                
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+      <div class="overlay">
+          <div class="slider-trigger"></div>
+          <h1 class="header-author js-mobile-header hide"><a href="/" title="回到主页">Norman</a></h1>
+      </div>
+    <div class="intrude-less">
+        <header id="header" class="inner">
+            <a href="/" class="profilepic">
+                <img src="/assets/img/avatar.jpg" class="animated zoomIn">
+            </a>
+            <hgroup>
+              <h1 class="header-author"><a href="/" title="回到主页">Norman</a></h1>
+            </hgroup>
+            
+            <nav class="header-menu">
+                <ul>
+                
+                    <li><a href="/">主页</a></li>
+                
+                    <li><a href="/archives/">所有文章</a></li>
+                
+                    <li><a href="/tags/">标签云</a></li>
+                
+                    <li><a href="/about/">关于我</a></li>
+                
+                <div class="clearfix"></div>
+                </ul>
+            </nav>
+            <nav class="header-nav">
+                        <ul class="social">
+                            
+                                <a class="fa 新浪微博" target="_blank" href="https://weibo.com/iriqium" title="新浪微博"></a>
+                            
+                                <a class="fa GitHub" target="_blank" href="https://github.com/normantag" title="GitHub"></a>
+                            
+                                <a class="fa 知乎" target="_blank" href="https://www.zhihu.com/people/normantag" title="知乎"></a>
+                            
+                                <a class="fa RSS" target="_blank" href="/atom.xml" title="RSS"></a>
+                            
+                        </ul>
+            </nav>
+        </header>                
+    </div>
+    <link class="menu-list" tags="Tags" friends="Friends" about="About Me"/>
+</nav>
+      <div class="body-wrap"><article id="post-AndroidSecurityWeekly-09-15-09-21" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/21/AndroidSecurityWeekly-09-15-09-21/" class="article-date">
+      <time datetime="2017-09-21T11:11:40.000Z" itemprop="datePublished">2017-09-21</time>
+</a>
+
+
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android安全技术周报 09.15 - 09.21
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+
+        
+    <div class="article-tag tagcloud">
+        <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android安全/">Android安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Botnet/">Botnet</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Malware/">Malware</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Vulnerability/">Vulnerability</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/周报/">周报</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/漏洞/">漏洞</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/病毒/">病毒</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/移动安全/">移动安全</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/黑客/">黑客</a></li></ul>
+    </div>
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+          
+        <h2 id="Systtem-Internals"><a href="#Systtem-Internals" class="headerlink" title="Systtem Internals"></a>Systtem Internals</h2><ol>
+<li><p>Android Google Play集成Google Play Protect 防护服务，新添加了一个 SafetyNet Verify Apps API 的特性，开发者可以从 Verify Apps API 获得已安装 APP 的安全状态： </p>
+<p><a href="https://android-developers.googleblog.com/2017/09/safetynet-verify-apps-api-google-play.html" target="_blank" rel="external">https://android-developers.googleblog.com/2017/09/safetynet-verify-apps-api-google-play.html</a></p>
+</li>
+<li><p>SELinux in Android Oreo or: How I Learned to Stop Worrying and Love Attributes</p>
+<p><a href="http://events.linuxfoundation.org/sites/events/files/slides/LSS%20-%20Treble%20%27n%27%20SELinux.pdf" target="_blank" rel="external">http://events.linuxfoundation.org/sites/events/files/slides/LSS%20-%20Treble%20%27n%27%20SELinux.pdf</a></p>
+<p>另外一篇关于SELinux的paper  《The Case for Security Enhanced (SE) Android》</p>
+<p><a href="https://events.linuxfoundation.org/images/stories/pdf/lf_abs12_smalley.pdf" target="_blank" rel="external">https://events.linuxfoundation.org/images/stories/pdf/lf_abs12_smalley.pdf</a> </p>
+</li>
+</ol>
+<h2 id="Malware"><a href="#Malware" class="headerlink" title="Malware"></a>Malware</h2><ol>
+<li><p>高级 SMS 恶意软件 “ExpensiveWall” 感染数百万个 Android 设备</p>
+<p><a href="https://threatpost.com/premium-sms-malware-expensivewall-infects-millions-of-android-devices/127976/" target="_blank" rel="external">https://threatpost.com/premium-sms-malware-expensivewall-infects-millions-of-android-devices/127976/</a></p>
+</li>
+<li><p>Android色情病毒发展史： </p>
+<p><a href="http://www.freebuf.com/articles/system/146504.html" target="_blank" rel="external">http://www.freebuf.com/articles/system/146504.html</a></p>
+</li>
+<li><p>Android FlexiSpy 间谍软件深入分析： </p>
+<p><a href="http://www.fortiguard.com/events/2049/toorcon-19-san-diego-dig-deep-into-flexispy-for-android" target="_blank" rel="external">http://www.fortiguard.com/events/2049/toorcon-19-san-diego-dig-deep-into-flexispy-for-android</a></p>
+</li>
+<li><p>Checkpoint报道中国的手机软件 DU Antivirus Security 窃取用户数据</p>
+<p><a href="https://research.checkpoint.com/mobile-anti-virus-app-protect-infect-truth-behind-du-antivirus-security/" target="_blank" rel="external">https://research.checkpoint.com/mobile-anti-virus-app-protect-infect-truth-behind-du-antivirus-security/</a></p>
+</li>
+<li><p>新的Android木马针对60多家银行和社交应用程序</p>
+<p><a href="https://thehackernews.com/2017/09/android-banking-trojan.html" target="_blank" rel="external">https://thehackernews.com/2017/09/android-banking-trojan.html</a></p>
+<p><a href="https://clientsidedetection.com/new_android_trojan_targeting_over_60_banks_and_social_apps.html" target="_blank" rel="external">https://clientsidedetection.com/new_android_trojan_targeting_over_60_banks_and_social_apps.html</a> </p>
+<p><a href="https://github.com/virqdroid/Android_Malware/tree/master/Red_Alert_2" target="_blank" rel="external">https://github.com/virqdroid/Android_Malware/tree/master/Red_Alert_2</a></p>
+</li>
+<li><p>BankBot 恶意软件过去10个月里的演化，来自 FortiGuard Lab： </p>
+<p><a href="https://blog.fortinet.com/2017/09/19/a-look-into-the-new-strain-of-bankbot" target="_blank" rel="external">https://blog.fortinet.com/2017/09/19/a-look-into-the-new-strain-of-bankbot</a></p>
+</li>
+</ol>
+<h2 id="Tech"><a href="#Tech" class="headerlink" title="Tech"></a>Tech</h2><ol>
+<li><p>利用树莓派、EC2 和 MHN 搭建蜜罐网络： </p>
+<p><a href="http://www.h-i-r.net/2017/09/building-honeypot-army-pi-ec2-mhn.html" target="_blank" rel="external">http://www.h-i-r.net/2017/09/building-honeypot-army-pi-ec2-mhn.html</a></p>
+</li>
+<li><p>Reverse Engineering an Android Application </p>
+<p><a href="https://leakedforums.com/threads/ebook-reverse-engineering-an-android-application-apk-hacking.349/" target="_blank" rel="external">https://leakedforums.com/threads/ebook-reverse-engineering-an-android-application-apk-hacking.349/</a></p>
+</li>
+<li><p>常见的WiFi攻击及检测方法</p>
+<p><a href="https://wtf.horse/2017/09/19/common-wifi-attacks-explained/" target="_blank" rel="external">https://wtf.horse/2017/09/19/common-wifi-attacks-explained/</a></p>
+</li>
+<li><p>&lt;翻译&gt; Android应用逆向工程</p>
+<p><a href="http://bobao.360.cn/learning/detail/4428.html" target="_blank" rel="external">http://bobao.360.cn/learning/detail/4428.html</a></p>
+</li>
+<li><p>&lt;翻译&gt;Android Toast Overlay攻击：无需任何权限的“Cloak and Dagger”</p>
+<p><a href="http://bobao.360.cn/learning/detail/4436.html" target="_blank" rel="external">http://bobao.360.cn/learning/detail/4436.html</a></p>
+</li>
+<li><p>ARM exploitation for IoT</p>
+<p><a href="https://quequero.org/2017/07/arm-exploitation-iot-episode-1/" target="_blank" rel="external">https://quequero.org/2017/07/arm-exploitation-iot-episode-1/</a> </p>
+<p><a href="https://quequero.org/2017/09/arm-exploitation-iot-episode-2/" target="_blank" rel="external">https://quequero.org/2017/09/arm-exploitation-iot-episode-2/</a></p>
+</li>
+<li><p>如何搭建一个便携式蜂窝网络： </p>
+<p><a href="https://mbro95.github.io/PortableCellNetwork/" target="_blank" rel="external">https://mbro95.github.io/PortableCellNetwork/</a></p>
+</li>
+<li><p>如何用 ES（ElasticSearch）优化 ssdeep 的比较结果： </p>
+<p><a href="http://www.intezer.com/intezer-community-tip-ssdeep-comparisons-with-elasticsearch/" target="_blank" rel="external">http://www.intezer.com/intezer-community-tip-ssdeep-comparisons-with-elasticsearch/</a> </p>
+</li>
+<li><p>360网络安全研究院发现Hajime Botnet的一些新进展</p>
+<p><a href="http://blog.netlab.360.com/hajime-status-report/" target="_blank" rel="external">http://blog.netlab.360.com/hajime-status-report/</a></p>
+</li>
+</ol>
+<h2 id="Tool"><a href="#Tool" class="headerlink" title="Tool"></a>Tool</h2><ol>
+<li><p>idahunt  - NCCGroup 开源的用于辅助 IDA Pro 逆向分析的工具</p>
+<p><a href="https://github.com/nccgroup/idahunt" target="_blank" rel="external">https://github.com/nccgroup/idahunt</a></p>
+</li>
+<li><p>githubscan：GitHub敏感信息扫描工具</p>
+<p><a href="https://github.com/lianfeng30/githubscan" target="_blank" rel="external">https://github.com/lianfeng30/githubscan</a></p>
+</li>
+<li><p>MinerBlock - 挖矿的恶意软件（包括浏览器插件）越来越多，海盗湾也在测试用 JS 挖矿替代广告，作者开发了一个用于阻止基于 Web 页面的加密货币挖矿后门的浏览器扩展</p>
+<p><a href="https://github.com/xd4rker/MinerBlock" target="_blank" rel="external">https://github.com/xd4rker/MinerBlock</a></p>
+</li>
+<li><p>FRIEND : 一款可以提供改进的Processor Module（比如capstone）、指令和寄存器的上下文帮助、函数调用列表的IDA插件</p>
+<p><a href="https://github.com/alexhude/FRIEND" target="_blank" rel="external">https://github.com/alexhude/FRIEND</a></p>
+</li>
+</ol>
+<h2 id="Conf"><a href="#Conf" class="headerlink" title="Conf"></a>Conf</h2><ol>
+<li><p>USENIX 2017 会议演讲视频</p>
+<p><a href="https://www.usenix.org/conference/usenixsecurity17/technical-sessions" target="_blank" rel="external">https://www.usenix.org/conference/usenixsecurity17/technical-sessions</a></p>
+</li>
+<li><p>BSidesAugusta 2017会议视频</p>
+<p><a href="https://www.youtube.com/playlist?list=PLEJJRQNh3v_PQEsZ8R7H6xKe9Bkg_KnVC" target="_blank" rel="external">https://www.youtube.com/playlist?list=PLEJJRQNh3v_PQEsZ8R7H6xKe9Bkg_KnVC</a> </p>
+</li>
+<li><p>HITBGSEC 2017 Singapore 视频</p>
+<p><a href="https://www.youtube.com/playlist?list=PLmv8T5-GONwR5ccR18W1uaVMAh7aF0BJ3" target="_blank" rel="external">https://www.youtube.com/playlist?list=PLmv8T5-GONwR5ccR18W1uaVMAh7aF0BJ3</a></p>
+</li>
+</ol>
+<h2 id="Vulnerability"><a href="#Vulnerability" class="headerlink" title="Vulnerability"></a>Vulnerability</h2><ol>
+<li><p>BlueBorne安全威胁的一些跟进分析 和 POC</p>
+<p><a href="https://duo.com/blog/an-analysis-of-blueborne-bluetooth-security-risks" target="_blank" rel="external">https://duo.com/blog/an-analysis-of-blueborne-bluetooth-security-risks</a> </p>
+<p><a href="https://mp.weixin.qq.com/s/YCuY4D-IH3ovyBLBQkXwdQ" target="_blank" rel="external">https://mp.weixin.qq.com/s/YCuY4D-IH3ovyBLBQkXwdQ</a></p>
+<p><a href="https://hackaday.com/2017/09/14/bluetooth-vulnerability-affects-all-major-os/" target="_blank" rel="external">https://hackaday.com/2017/09/14/bluetooth-vulnerability-affects-all-major-os/</a> </p>
+<p>CVE-2017-0785 Android information leak (Blueborne) PoC</p>
+<p><a href="https://github.com/ojasookert/CVE-2017-0785" target="_blank" rel="external">https://github.com/ojasookert/CVE-2017-0785</a> </p>
+</li>
+<li><p>安卓Trustzone有巨大漏洞？降级攻击为你做出解析</p>
+<p><a href="https://mp.weixin.qq.com/s/lR9t74nrZY35mwnonO8sew" target="_blank" rel="external">https://mp.weixin.qq.com/s/lR9t74nrZY35mwnonO8sew</a></p>
+</li>
+<li><p>攻击TrustZone系列 – 逆向高通TrustZone</p>
+<p><a href="http://mp.weixin.qq.com/s/l6GME9QCQAaN7Wxp7xCp9w" target="_blank" rel="external">http://mp.weixin.qq.com/s/l6GME9QCQAaN7Wxp7xCp9w</a></p>
+</li>
+<li><p>BabelView: 评估 Mobile Webviews 代码注入攻击的影响</p>
+<p><a href="https://arxiv.org/pdf/1709.05690.pdf" target="_blank" rel="external">https://arxiv.org/pdf/1709.05690.pdf</a></p>
+</li>
+<li><p>Linux攻击面分析</p>
+<p><a href="https://anvilventures.com/blog/linux-attack-surface-analysis.html" target="_blank" rel="external">https://anvilventures.com/blog/linux-attack-surface-analysis.html</a> </p>
+</li>
+<li><p>内核驱动程序mmap处理程序漏洞利用代码开发</p>
+<p><a href="https://labs.mwrinfosecurity.com/publications/kernel-driver-mmap-handler-exploitation/" target="_blank" rel="external">https://labs.mwrinfosecurity.com/publications/kernel-driver-mmap-handler-exploitation/</a> </p>
+<p><a href="https://labs.mwrinfosecurity.com/assets/BlogFiles/mwri-mmap-exploitation-whitepaper-2017-09-18.pdf" target="_blank" rel="external">https://labs.mwrinfosecurity.com/assets/BlogFiles/mwri-mmap-exploitation-whitepaper-2017-09-18.pdf</a></p>
+</li>
+<li><p>我如何使用Cloud Fuzzing挖到了一个Tcpdump漏洞</p>
+<p><a href="http://www.freebuf.com/articles/network/147955.html" target="_blank" rel="external">http://www.freebuf.com/articles/network/147955.html</a></p>
+</li>
+<li><p>Android Message APP 拒绝服务漏洞(CVE-2017-0780)分析与利用</p>
+<p><a href="http://www.freebuf.com/vuls/147601.html" target="_blank" rel="external">http://www.freebuf.com/vuls/147601.html</a></p>
+</li>
+</ol>
+
+      
+    </div>
+    
+      
+    <div style="padding: 0; margin: 20px auto; width: 90%; text-align: center;">
+      <div class="page-reward">
+          <div class="page-reward-btn tooltip-top" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+          </div>
+          </div>
+        </div>
+        
+      <div id="QR" style="display: none;">
+        
+          <div id="wechat" style="display: inline-block;">
+            <img id="wechat_qr" src="/assets/img/wechat.png" alt="Norman WeChat Pay"/>
+            <p>微信打赏</p>
+          </div>
+        
+        
+          <div id="alipay" style="display: inline-block">
+            <img id="alipay_qr" src="/assets/img/alipay.png" alt="Norman Alipay"/>
+            <p>支付宝打赏</p>
+          </div>
+        
+        <br>
+        <br>
+      </div>
+    </div>
+
+
+      
+    
+  </div>
+  
+    
+    <div class="copyright">
+        <p><span>Title:</span><a href="/2017/09/21/AndroidSecurityWeekly-09-15-09-21/">Android安全技术周报 09.15 - 09.21</a></p>
+        <p><span>Author:</span><a href="/" title="Back to Homepage">Norman</a></p>
+        <p><span>Created:</span>2017-09-21, 20:11:40</p>
+        <p><span>Updated:</span>2017-09-28, 16:52:19</p>
+        <p>
+            <span>Full URL:</span><a class="post-url" href="/2017/09/21/AndroidSecurityWeekly-09-15-09-21/" title="Android安全技术周报 09.15 - 09.21">http://norman.ml/2017/09/21/AndroidSecurityWeekly-09-15-09-21/</a>
+            <span class="copy-path" data-clipboard-text="From http://norman.ml/2017/09/21/AndroidSecurityWeekly-09-15-09-21/　　By Norman" title="Copy Article&#39;s Link &amp; Author"><i class="fa fa-clipboard"></i></span>
+            <script> var clipboard = new Clipboard('.copy-path'); </script>
+        </p>
+        <p>
+            <span>License:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"CC BY-NC-SA 4.0"</a> Keep Link &amp; Author if Distribute.
+        </p>
+    </div>
+
+
+
+    <nav id="article-nav">
+        
+            <div id="article-nav-newer" class="article-nav-title">
+                <a href="/2017/09/28/AndroidSecurityWeekly-09-22-09-28/">
+                    Android安全技术周报 09.22 - 09.28
+                </a>
+            </div>
+        
+        
+            <div id="article-nav-older" class="article-nav-title">
+                <a href="/2017/09/21/AndroidSecurityWeekly-09-08-09-14/">
+                    Android安全技术周报 09.08 - 09.14
+                </a>
+            </div>
+        
+    </nav>
+
+  
+
+</article>
+
+    <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Systtem-Internals"><span class="toc-number">1.</span> <span class="toc-text">Systtem Internals</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Malware"><span class="toc-number">2.</span> <span class="toc-text">Malware</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tech"><span class="toc-number">3.</span> <span class="toc-text">Tech</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tool"><span class="toc-number">4.</span> <span class="toc-text">Tool</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conf"><span class="toc-number">5.</span> <span class="toc-text">Conf</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vulnerability"><span class="toc-number">6.</span> <span class="toc-text">Vulnerability</span></a></li></ol>
+        
+    </div>
+    <style>
+        .left-col .switch-btn,
+        .left-col .switch-area {
+            display: none;
+        }
+        .toc-level-3 i,
+        .toc-level-3 ol {
+            display: none !important;
+        }
+    </style>
+
+    <input type="button" id="tocButton" value="Hide"  title="Show or Hide Table of Contents">
+
+    <script>
+        yiliaConfig.toc = ["Hide", "Show", !!"false"];
+    </script>
+
+
+
+    
+<div class="share">
+    
+        <div class="bdsharebuttonbox">
+            <a href="#" class="fa fa-twitter bds_twi" data-cmd="twi" title="分享到推特"></a>
+            <a href="#" class="fa fa-weibo bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+            <a href="#" class="fa fa-qq bds_sqq" data-cmd="sqq" title="分享给 QQ 好友"></a>
+            <a href="#" class="fa fa-files-o bds_copy" data-cmd="copy" title="复制网址"></a>
+            <a href="#" class="fa fa fa-envelope-o bds_mail" data-cmd="mail" title="通过邮件分享"></a>
+            <a href="#" class="fa fa-weixin bds_weixin" data-cmd="weixin" title="生成文章二维码"></a>
+            <a href="#" class="fa fa-share-alt bds_more" data-cmd="more"></i></a>
+        </div>
+        <script>
+            window._bd_share_config={
+                "common":{"bdSnsKey":{},"bdText":"Android安全技术周报 09.15 - 09.21　| project tag and the machine　","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+        </script>
+    
+
+    
+</div>
+
+
+
+
+
+
+
+    
+
+
+
+
+    <div class="scroll" id="post-nav-button">
+        
+            <a href="/2017/09/28/AndroidSecurityWeekly-09-22-09-28/" title="Pre: Android安全技术周报 09.22 - 09.28">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        
+
+        <a title="Mini Archives"><i class="fa fa-bars"></i><i class="fa fa-times"></i></a>
+
+        
+            <a href="/2017/09/21/AndroidSecurityWeekly-09-08-09-14/" title="Next: Android安全技术周报 09.08 - 09.14">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        
+    </div>
+
+    <ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/09/28/AndroidSecurityWeekly-09-22-09-28/">Android安全技术周报 09.22 - 09.28</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/AndroidSecurityWeekly-09-15-09-21/">Android安全技术周报 09.15 - 09.21</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/AndroidSecurityWeekly-09-08-09-14/">Android安全技术周报 09.08 - 09.14</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/AndroidSecurityWeekly-08-31-09-07/">Android安全技术周报 08.31 - 09.07</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/AndroidSecurityWeekly-08-25-08-31/">Android安全技术周报 08.25 - 08.31</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/AndroidSecurityWeekly-08-18-08-25/">Android安全技术周报 08.18 - 08.25</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/AndroidSecurityWeekly-08-11-08-17/">Android安全技术周报 08.11 - 08.17</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/AndroidSecurityWeekly-08-07-08-10/">Android安全技术周报 08.07 - 08.10</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/21/AndroidSecurityWeekly-07-31-08-06/">Android安全技术周报 07.31 - 08.06</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/20/common-mirrors-for-chinese-developer/">开发者常用的国内镜像站</a></li></ul>
+
+
+
+
+    <script>
+        
+    </script>
+
+</div>
+      <footer id="footer">
+    <div class="outer">
+        <div id="footer-info">
+            <div class="footer-left">
+                <i class="fa fa-copyright"></i> 
+                2016-2017 Norman
+            </div>
+            <div class="footer-right">
+                <a href="http://hexo.io/" target="_blank" title="A fast, simple &amp; powerful blog framework">Hexo</a>  Theme <a href="https://github.com/MOxFIVE/hexo-theme-yelee" target="_blank" title="Another simple and elegant theme for Hexo  v3.6">Yelee</a> by MOxFIVE <i class="fa fa-heart animated infinite pulse"></i>
+            </div>
+        </div>
+        
+            <div class="visit">
+                
+                    <span id="busuanzi_container_site_pv" style='display:none'>
+                        <span id="site-visit" title="Site Visitors"><i class="fa fa-user" aria-hidden="true"></i><span id="busuanzi_value_site_uv"></span>
+                        </span>
+                    </span>
+                
+                
+                    <span>| </span>
+                
+                
+                    <span id="busuanzi_container_page_pv" style='display:none'>
+                        <span id="page-visit"  title="Page Hits"><i class="fa fa-eye animated infinite pulse" aria-hidden="true"></i><span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    </span>
+                
+            </div>
+        
+    </div>
+</footer>
+    </div>
+    
+<script data-main="/js/main.js" src="//cdn.bootcss.com/require.js/2.2.0/require.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var iPad = window.navigator.userAgent.indexOf('iPad');
+            if (iPad > -1 || $(".left-col").css("display") === "none") {
+                var bgColorList = ["#9db3f4", "#414141", "#e5a859", "#f5dfc6", "#c084a0", "#847e72", "#cd8390", "#996731"];
+                var bgColor = Math.ceil(Math.random() * (bgColorList.length - 1));
+                $("body").css({"background-color": bgColorList[bgColor], "background-size": "cover"});
+            }
+            else {
+                var backgroundnum = 5;
+                var backgroundimg = "url(/background/bg-x.jpg)".replace(/x/gi, Math.ceil(Math.random() * backgroundnum));
+                $("body").css({"background": backgroundimg, "background-attachment": "fixed", "background-size": "cover"});
+            }
+        })
+    </script>
+
+
+
+
+
+<div class="scroll" id="scroll">
+    <a href="#" title="Back to Top"><i class="fa fa-arrow-up"></i></a>
+    <a href="#comments" onclick="load$hide();" title="Comments"><i class="fa fa-comments-o"></i></a>
+    <a href="#footer" title="Go to Bottom"><i class="fa fa-arrow-down"></i></a>
+</div>
+<script>
+    // Open in New Window
+    
+        var oOpenInNew = {
+            
+            
+            
+            
+            
+            
+             archives: ".archive-article-title", 
+             miniArchives: "a.post-list-link", 
+            
+             friends: "#js-friends a", 
+             socail: ".social a" 
+        }
+        for (var x in oOpenInNew) {
+            $(oOpenInNew[x]).attr("target", "_blank");
+        }
+    
+</script>
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+</script>
+  </div>
+</body>
+</html>
